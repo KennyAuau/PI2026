@@ -5,7 +5,7 @@ const app = express();
 
 // EJS
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "..", "PI2026"));
+app.set("views", path.join(__dirname, ".."));
 
 // FORM
 app.use(express.urlencoded({ extended: true }));
