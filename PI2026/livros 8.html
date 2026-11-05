@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pavil | Velas </title>
+    <link rel="icon" type="image/x-icon" href="imagens/pavil logo.png">
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+      <link rel="stylesheet" href="css/estilo.css">
+      <link rel="stylesheet" href="css/estilonavbar.css">
+      <link rel="stylesheet" href="css/estilofooter.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-deep: #0a0e17;
+            --blue-greek: #0056b3;
+            --blue-light: #00a8ff;
+            --gold: #dfb76c;
+            --text-light: #f5f6fa;
+            --card-bg: rgba(15, 23, 42, 0.6);
+        }
+
+         body{
+            padding: 10px;
+             background-color: var(--bg-deep);
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(0, 86, 179, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(223, 183, 108, 0.05) 0%, transparent 40%);
+            color: var(--text-light);
+}
+
+        /* Espaço reservado para a Navbar */
+        .navbar-placeholder {
+            width: 100%;
+            height: 80px;
+            background: #061124;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #d4af37;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+        }
+
+        /* Container Principal do Produto */
+        .product-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        @media (max-width: 768px) {
+            .product-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Galeria de Imagens */
+        .gallery-section {
+            display: flex;
+            gap: 20px;
+        }
+
+        .thumbnails-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .thumbnails-list::-webkit-scrollbar {
+            width: 4px;
+        }
+        .thumbnails-list::-webkit-scrollbar-thumb {
+            background: rgba(212, 175, 55, 0.3);
+            border-radius: 4px;
+        }
+
+        .thumb {
+            width: 75px;
+            height: 95px;
+            object-fit: cover;
+            border-radius: 6px;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .thumb:hover, .thumb.active {
+            border-color: #d4af37;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+            transform: scale(1.02);
+        }
+
+        .main-image-container {
+            flex: 1;
+            background: #0a1e3f;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 500px;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Informações do Produto */
+        .info-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .breadcrumb {
+            font-size: 0.85rem;
+            color: #8fa3bf;
+        }
+
+        .product-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            color: #d4af37;
+            letter-spacing: 1px;
+            line-height: 1.2;
+        }
+
+        .product-price {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        .installments {
+            font-size: 0.9rem;
+            color: #8fa3bf;
+        }
+
+        .pix-discount {
+            font-size: 0.9rem;
+            color: #00f5d4;
+            margin-top: -10px;
+        }
+
+        /* Caixa de Descrição Expansível */
+        .description-box {
+            background: #061124;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #b0c4de;
+        }
+
+        .description-box ul {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        /* Conteúdo extra Oculto por padrão */
+        .extra-details {
+            display: none; /* Garante que fica escondido ao carregar */
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px dashed rgba(212, 175, 55, 0.2);
+        }
+
+        .more-details-btn {
+            background: none;
+            border: none;
+            color: #d4af37;
+            cursor: pointer;
+            font-size: 0.85rem;
+            text-align: left;
+            text-decoration: underline;
+            padding: 0;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        /* Área de Compra */
+        .purchase-area {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin-top: 10px;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            border-radius: 6px;
+            background: #061124;
+            overflow: hidden;
+        }
+
+        .quantity-selector button {
+            background: none;
+            border: none;
+            color: #d4af37;
+            font-size: 1.1rem;
+            padding: 10px 15px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .quantity-selector button:hover {
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .quantity-selector span {
+            padding: 0 10px;
+            font-weight: 500;
+        }
+
+        .buy-button {
+            flex: 1;
+            background: linear-gradient(135deg, #b8972e, #d4af37);
+            color: #030a16;
+            border: none;
+            padding: 14px;
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            letter-spacing: 2px;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        /* Mensagem de Feedback do Carrinho */
+        .feedback-msg {
+            display: none; /* Oculta a mensagem por padrão */
+            margin-top: 12px;
+            font-size: 0.9rem;
+            color: #00f5d4;
+            font-weight: 500;
+}
+
+        .buy-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
+            background: linear-gradient(135deg, #c5a438, #e5bf43);
+        }
+
+        /* Selos de Segurança */
+        .security-badges {
+            margin-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .badge-item {
+            font-size: 0.85rem;
+            color: #8fa3bf;
+        }
+
+        .badge-item strong {
+            color: #ffffff;
+            display: block;
+            margin-bottom: 2px;
+        }
+    </style>
+    <script src="interface.js" defer></script>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+     <a class="navbar-brand" href="interface.html">
+    <img src="imagens/pavil logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+    Pavil
+    </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Alterna navegação">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="interface.html">Home <span class="sr-only">(Página atual)</span></a>
+      </li>
+      <li class="nav-item">
+		<a class="nav-link" href="contato.html">Contato</a>
+	   </li>
+       <li class="nav-item">
+        <a class="nav-link" href="loc.html">Venha nos visitar!</a>
+      </li>
+      <li class="nav-item active">
+        <a class="nav-link" href="Velas.html" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Voltar
+        </a>
+      </li>
+         
+    </ul>
+  </div>
+    <nav class="navbar-right"> 
+      <ul class="navbar-right">
+          <li class="nav-item">
+        <div class="menu" aria-labelledby="navbarMenuLink">
+          <a class="nav-item" href="carrinho.html"><i class="bi bi-bag-dash"></i></a>
+        </div>
+      </li>
+  </ul>
+  </nav>
+  <nav class="navbar-right"> 
+      <ul class="navbar-right">
+          <li class="nav-item">
+        <div class="menu" aria-labelledby="navbarMenuLink">
+          <a class="nav-item" href="perfi.html"><i class="bi bi-person-circle"></i></a>
+        </div>
+      </li>
+  </ul>
+  </nav>
+</nav>
+
+   <!-- Container Principal do Produto -->
+    <div class="product-container">
+        
+        <!-- Seção da Galeria -->
+        <div class="gallery-section">
+            <div class="thumbnails-list">
+                <img src="Velas/vela1.jpg" class="thumb active" onclick="trocarImagem(this)">
+                <img src="Velas/fotocompravela1.webp" class="thumb" onclick="trocarImagem(this)">
+                <img src="Velas/fotocompravela2.webp" class="thumb" onclick="trocarImagem(this)">
+                <img src="Velas/vela1.jpg" class="thumb" onclick="trocarImagem(this)">
+            </div>
+            <div class="main-image-container">
+                <img id="imagem-principal" src="Velas/vela1.jpg" class="main-image" alt="Produto Místico">
+            </div>
+        </div>
+
+        <!-- Seção de Informações -->
+        <div class="info-section">
+            <div class="breadcrumb">Início > Cartas e Oráculos > Guias Místico</div>
+            
+            <h1 id="produto-nome" class="product-title">Vela Laranja para Bons Negócios</h1>
+            
+            <div id="produto-preco" class="product-price" data-valor="33.90">R$ 33,90</div>
+            <div class="installments">2x de R$ 11,95 sem juros</div>
+            <div class="pix-discount">5% de desconto pagando com Pix</div>
+
+            <div class="description-box">
+                <strong>Sobre :</strong>
+                <ul>
+                    <li>Por que comprar a Vela de 7 Dias para Bons Negócios?</li>
+                    <li>A Vela de 7 dias Laranja Bons Negócios é ideal para atrair calma, serenidade, sabedoria e expansão nos projetos. Esta vela de 7 dias trabalha também a sensitividade, a intuição e o desenvolvimento espiritual. Simboliza a força, o poder, a fé, o dinheiro, o sucesso nos negócios e no trabalho. Quando acesa, a vela de 7 dias para Bons Negócios promove alegria, jovialidade e potencializa a energia de Júpiter, além de atrair boas energias para ambientes públicos. Obtenha êxito em negociações e sucesso nas áreas financeira e bens materiais.</li>
+                </ul>
+
+                <div id="extra-content" class="extra-details">
+                    <p><strong>Detalhes Adicionais do Produto:</strong></p>
+                    <p>Utilização da Vela de 7 Dias para Bons Negócios:
+Acenda a vela e concentre-se no desejo. Deixe queimar durante os 7 dias para que se realize. Repita sempre que necessário.
+
+Detalhes da Vela de 7 Dias para Bons Negócios:
+Peso: 250 Gramas
+Composição: parafina, pavio e corante
+Duração aproximadamente 7 dias
+Validade: indeterminada
+Cuidados quando queimar a Vela de 7 Dias para Bons Negócios:
+Não retirar o plástico quando queimar a vela
+Não deixar a vela queimar sem supervisão
+Manter fora do alcance de crianças e animais de estimação
+Acenda a vela em lugar não inflamável e mantenha-se atento durante a queima da vela, especialmente durante a noite
+                </div>
+
+                <button class="more-details-btn" id="btn-toggle" onclick="toggleDetalhes()">Ver mais detalhes</button>
+            </div>
+
+            <!-- Área de Compra -->
+            <div class="purchase-area">
+                <div class="quantity-selector">
+                    <button onclick="alterarQtd(-1)">-</button>
+                    <span id="quantidade">1</span>
+                    <button onclick="alterarQtd(1)">+</button>
+                </div>
+                <!-- Botão de Comprar conectado com a função JS -->
+                <button class="buy-button" onclick="adicionarAoCarrinho(this)" 
+                    data-id="1" 
+                    data-nome="Guias" 
+                    data-preco="21.90" 
+                    data-imagem="acessorio1">
+                    COMPRAR
+</button>
+            </div>
+            <div id="feedback" class="feedback-msg">✨ Produto adicionado ao carrinho com sucesso!</div>
+
+            <!-- Informações de Segurança -->
+            <div class="security-badges">
+                <div class="badge-item">
+                    <strong>🛡️ Compra protegida</strong>
+                    Seus dados confidenciais protegidos durante toda a compra.
+                </div>
+                <div class="badge-item">
+                    <strong>🔄 Trocas e devoluções</strong>
+                    Se não gostar, você pode trocar ou devolver.
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Função para alternar a caixa de detalhes
+        function toggleDetalhes() {
+            const extra = document.getElementById('extra-content');
+            const btn = document.getElementById('btn-toggle');
+
+            if (extra.style.display === 'block') {
+                extra.style.display = 'none';
+                btn.innerText = 'Ver mais detalhes';
+            } else {
+                extra.style.display = 'block';
+                btn.innerText = 'Ver menos detalhes';
+            }
+        }
+
+        // Função para trocar a imagem principal ao clicar nas miniaturas
+        function trocarImagem(element) {
+            document.querySelectorAll('.thumb').forEach(thumb => thumb.classList.remove('active'));
+            element.classList.add('active');
+            document.getElementById('imagem-principal').src = element.src;
+        }
+
+        // Função para controlar a quantidade de itens
+        let qtd = 1;
+        function alterarQtd(valor) {
+            qtd += valor;
+            if (qtd < 1) qtd = 1;
+            document.getElementById('quantidade').innerText = qtd;
+        }
+
+        // Função para adicionar o produto ao carrinho (LocalStorage)
+        // Função para adicionar o produto ao carrinho (LocalStorage) usando os atributos do botão
+function adicionarAoCarrinho(botao) {
+    // Pega os dados diretamente dos atributos data-* do botão
+    const id = botao.getAttribute('data-id');
+    const nome = botao.getAttribute('data-nome');
+    const preco = parseFloat(botao.getAttribute('data-preco'));
+    const imagem = botao.getAttribute('data-imagem');
+    
+    // Pega a quantidade selecionada no seletor da página
+    const quantidade = parseInt(document.getElementById('quantidade').innerText);
+
+    // Recupera o carrinho atual do localStorage ou cria um array vazio
+    let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+
+    // Verifica se o produto (pelo ID ou nome) já existe no carrinho
+    const indexExistente = carrinho.findIndex(item => item.id === id || item.nome === nome);
+    
+    if (indexExistente > -1) {
+        carrinho[indexExistente].quantidade += quantidade;
+    } else {
+        // Adiciona o novo produto incluindo o ID
+        carrinho.push({
+            id: id,
+            nome: nome,
+            preco: preco,
+            imagem: imagem,
+            quantidade: quantidade
+        });
+    }
+
+    // Salva de volta no localStorage
+    localStorage.setItem('carrinho', JSON.stringify(carrinho));
+
+    // Mostra mensagem de sucesso temporária
+    const feedback = document.getElementById('feedback');
+    feedback.style.display = 'block';
+    setTimeout(() => {
+        feedback.style.display = 'none';
+    }, 3000);
+}
+    </script>
+</body>
+</html>

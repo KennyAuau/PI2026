@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pavil</title>
+    <link rel="icon" type="image/x-icon" href="imagens/pavil logo.png">
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+      <link rel="stylesheet" href="css/estilo.css">
+      <link rel="stylesheet" href="css/estilonavbar.css">
+      <link rel="stylesheet" href="css/estilofooter.css">
+      <script src="interface.js" defer></script>
+
+
+      <style>
+         .search-container {
+            margin-bottom: 40px;
+            width: 100%;
+            max-width: 90%;
+            margin-left: auto;   /* Empurra para o centro na esquerda */
+            margin-right: auto;  /* Empurra para o centro na direita */
+            margin-top: 40px;    /* Afastamento do topo */
+            text-align: center;  /* Garante que o input interno fique alinhado */
+        }
+
+        /* Estilo da Barra de Pesquisa */
+        .search-input {
+            width: 100%;
+            padding: 14px 20px;
+            font-size: 1rem;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(223, 183, 108, 0.3);
+            border-radius: 50px; /* Deixa a barra arredondada */
+            color: var(--text-light);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 15px rgba(223, 183, 108, 0.2);
+        }
+
+        /* Grid de Produtos */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        /* Card do Produto */
+        .product-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            backdrop-filter: blur(8px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .product-card h3 {
+            margin: 10px 0 5px 0;
+            font-size: 1.2rem;
+        }
+
+        /* Tag de Categoria */
+        .category-badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gold);
+            background: rgba(223, 183, 108, 0.1);
+            padding: 4px 10px;
+            border-radius: 12px;
+            margin-top: 10px;
+        }
+
+        /* Classe utilitária para esconder produtos que não batem com a busca */
+        .hidden-card {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+}
+
+
+     /* Container do título alinhado à esquerda com recuo da borda 
+.titulo-secao {
+  text-align: left;
+  margin-top: 20px;
+  margin-bottom: 15px;
+  padding-left: 30px; /* Recuo/espaço em relação à borda esquerda da tela 
+}
+
+/* Estilo da fonte menor com efeito dourado 
+.titulo-secao h2 {
+  font-family: 'Cinzel', 'Playfair Display', 'Georgia', serif;
+  font-size: 1.4rem; /* Tamanho reduzido da fonte 
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin: 0;
+  
+  /* Degradê dourado reluzente 
+  background: linear-gradient(135deg, #FFE57F 0%, #D4AF37 40%, #AA771C 70%, #F5D77F 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  
+  /* Sombra suave 
+  filter: drop-shadow(0px 1px 5px rgba(212, 175, 55, 0.2)); 
+}*/
+
+      </style>
+
+
+</head>
+<body>
+
+   <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+     <a class="navbar-brand" href="interface.html">
+    <img src="imagens/pavil logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+    Pavil
+    </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Alterna navegação">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="interface.html">Home <span class="sr-only">(Página atual)</span></a>
+      </li>
+      <li class="nav-item">
+		<a class="nav-link" href="contato.html">Contato</a>
+	   </li>
+       <li class="nav-item">
+        <a class="nav-link" href="loc.html">Venha nos Comprar!</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Categorias
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="acessorios.html">Acessório</a>
+          <a class="dropdown-item" href="Tarot.html">Baralho de Tarot</a>
+          <a class="dropdown-item" href="Cristais.html">Cristais</a>
+          <a class="dropdown-item" href="incensario.html">Incensário</a>
+          <a class="dropdown-item" href="incenso.html">Incenso</a>
+          <a class="dropdown-item" href="Livros.html">Livros</a>
+          <a class="dropdown-item" href="OP.html">Ordem Paranormal</a>
+          <a class="dropdown-item" href="Velas.html">Velas</a>
+        </div>
+      </li>
+         
+    </ul>
+  </div>
+    <nav class="navbar-right"> 
+      <ul class="navbar-right">
+          <li class="nav-item">
+        <div class="menu" aria-labelledby="navbarMenuLink">
+          <a class="nav-item" href="carrinho.html"><i class="bi bi-bag-dash"></i></a>
+        </div>
+      </li>
+  </ul>
+  </nav>
+  <nav class="navbar-right"> 
+      <ul class="navbar-right">
+          <li class="nav-item">
+        <div class="menu" aria-labelledby="navbarMenuLink">
+          <a class="nav-item" href="perfi.html"><i class="bi bi-person-circle"></i></a>
+        </div>
+      </li>
+  </ul>
+  </nav>
+</nav>
+
+    </div>
+   </div>
+  
+   </div>
+
+
+
+<div class="search-container">
+        <input 
+            type="text" 
+            id="barrapesquisa" 
+            class="search-input" 
+            placeholder="Busque por categoria (ex: livros, velas)..."
+        >
+    </div>
+
+    <!--<div class="products-grid">
+        
+        <div class="product-card" data-category="livros">
+            <h3>Livro de rituais</h3>
+            <span class="category-badge">Livros</span>
+        </div>
+
+        <div class="product-card" data-category="velas">
+            <h3>Vela Aromática de Lavanda</h3>
+            <span class="category-badge">Velas</span>
+        </div>
+
+        <div class="product-card" data-category="livros">
+            <h3>Oráculo Diário</h3>
+            <span class="category-badge">Livros</span>
+        </div>
+
+        <div class="product-card" data-category="velas">
+            <h3>Vela Preta de Proteção</h3>
+            <span class="category-badge">Velas</span>
+        </div>
+
+        <div class="product-card" data-category="cristais">
+            <h3>Pedra Quartzo Rosa</h3>
+            <span class="category-badge">Cristais</span>
+        </div>
+
+    </div>-->
+
+
+
+   <div id="carouselExampleControls" class="carousel slide mt-3" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img class="d-block w-100" src="imagens/carrousel1.jpg" alt="Primeiro Slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="imagens/carrousel3.jpg" alt="Segundo Slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="imagens/carrousel2.jpg" alt="Terceiro Slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block w-100" src="imagens/carrousel4.jpg" alt="Terceiro Slide">
+    </div>
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Anterior</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Próximo</span>
+  </a>
+  
+</div>
+
+
+
+ <!-- <div class="titulo-secao">
+    <h2>Acessórios</h2>
+  </div> -->
+
+
+
+<div class="container mt-3">
+<!--------------------------------------------------acessorios------------------------------------------------------------------->
+<div class="row row-cols-1 row-cols-md-5 g-4 justify-content-center"> 
+ <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="guia">
+     <button class="seta seta-esquerda" onclick="rolarEsquerda()">&#10094;</button>
+         <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+    <div class="card" style="background-color: transparent; border: none;">
+      <a href="livros 1.html">
+  <img class="card-img-top" src="acessorios/acessorio1.png" alt="Imagem de capa do card">
+      </a>
+  <div class="card-body">
+
+    <div class="text-center">
+      <span class="category-badge">21.90</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="1" 
+         data-nome="Guia" 
+         data-preco="21.90" 
+         data-imagem="acessorios/acessorio1.png">Comprar</a>
+  </div>
+  </div>
+</div>
+</div>
+  </div>
+
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="pendulo">
+     <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="acessorios/acessorio2.png" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">26.00</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="2" 
+         data-nome="Pêndulo de Radiestesia" 
+         data-preco="26.00" 
+         data-imagem="Autoajuda/download (2).jpeg">Comprar</a>
+        </div>
+  </div>
+</div>
+</div>
+  </div>
+
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="terço">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="acessorios/acessorio3.png" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">20.00</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="3" 
+         data-nome="Terço" 
+         data-preco="20.00" 
+         data-imagem="Autoajuda/download (2).jpeg">Comprar</a>
+        </div>
+    
+  </div>
+</div>
+</div>
+  </div>
+
+  
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa"data-category="colar">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="acessorios/acessorio4.png" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">33.00</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="4" 
+         data-nome="Colar Pentagrama" 
+         data-preco="33.00" 
+         data-imagem="Autoajuda/download (2).jpeg">Comprar</a></div>
+  </div>
+</div>
+</div>
+  </div>
+
+  
+   <!--<div class="col-sm-12 col-md-2 mb-3">
+    <div class="card card-hover-effect" style="background-color: #c0ff96;">
+      <div class="card" style="background-color: #c0ff96;">
+  <img class="card-img-top" src="Autoajuda/Livros_ Um ano de humor, romance e mistério.jpeg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+    <a href="#" class="btn btn-primary">Comprar</a></div>
+  </div>
+</div>
+</div>
+  </div>-->
+
+  
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="escapulario">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="acessorios/acessorio5.png" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">50.00</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="5" 
+         data-nome="Escapulário" 
+         data-preco="50.00" 
+         data-imagem="Autoajuda/download (2).jpeg">Comprar</a></div>
+  </div>
+</div>
+</div>
+<button class="seta seta-direita" onclick="rolarDireita()">&#10095;</button>
+  </div>
+
+   
+
+
+</div>
+
+
+
+
+
+<!--------------------------------------------------tarot------------------------------------------------------------------->
+<div class="row row-cols-1 row-cols-md-5 g-4 justify-content-center"> 
+ <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="tarot">
+     <button class="seta seta-esquerda" onclick="rolarEsquerda()">&#10094;</button>
+         <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+    <div class="card" style="background-color: transparent; border: none;">
+      <a href="livros 2.html">
+  <img class="card-img-top" src="Baralho de tarot/tarot1.jpg" alt="Imagem de capa do card">
+      </a>
+  <div class="card-body">
+
+    <div class="text-center">
+      <span class="category-badge">30.00</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="21" 
+         data-nome="Tarot Rider-Waite" 
+         data-preco="30.00" 
+         data-imagem="Baralho de tarot/tarot1.jpg">Comprar</a>
+  </div>
+  </div>
+</div>
+</div>
+  </div>
+
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="tarot">
+     <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="Baralho de tarot/tarot2.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">160.76</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="22" 
+         data-nome="Tarot Rider Waite Edição Especial" 
+         data-preco="160.76" 
+         data-imagem="Baralho de tarot/tarot2.jpg">Comprar</a>
+        </div>
+  </div>
+</div>
+</div>
+  </div>
+
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="tarot">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="Baralho de tarot/tarot3.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">33.85</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="23" 
+         data-nome="Tarot Rider Waite Totally Unofficial Adventure Time Deck" 
+         data-preco="33.85" 
+         data-imagem="Baralho de tarot/tarot3.jpg">Comprar</a>
+        </div>
+    
+  </div>
+</div>
+</div>
+  </div>
+
+  
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa"data-category="tarot">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="Baralho de tarot/tarot4.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">29.90</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="24" 
+         data-nome="Tarot Baralho Legítimo Tarot Egípcio" 
+         data-preco="29.90" 
+         data-imagem="Baralho de tarot/tarot4.jpg">Comprar</a></div>
+  </div>
+</div>
+</div>
+  </div>
+
+  
+   <!--<div class="col-sm-12 col-md-2 mb-3">
+    <div class="card card-hover-effect" style="background-color: #c0ff96;">
+      <div class="card" style="background-color: #c0ff96;">
+  <img class="card-img-top" src="Baralho de tarot/Livros_ Um ano de humor, romance e mistério.jpeg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+    <a href="#" class="btn btn-primary">Comprar</a></div>
+  </div>
+</div>
+</div>
+  </div>-->
+
+  
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="tarot">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="Baralho de tarot/tarot5.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">43.60</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="25" 
+         data-nome="Tarot O Grande Tarot Negro Deck" 
+         data-preco="43.60" 
+         data-imagem="Baralho de tarot/tarot5.jpg">Comprar</a></div>
+  </div>
+</div>
+</div>
+<button class="seta seta-direita" onclick="rolarDireita()">&#10095;</button>
+  </div>
+
+   
+
+
+</div>
+
+
+
+<!--------------------------------------------------cristais------------------------------------------------------------------->
+<div class="row row-cols-1 row-cols-md-5 g-4 justify-content-center"> 
+ <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="cristal agata">
+     <button class="seta seta-esquerda" onclick="rolarEsquerda()">&#10094;</button>
+         <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+    <div class="card" style="background-color: transparent; border: none;">
+      <a href="livros 3.html">
+  <img class="card-img-top" src="Cristais/cristal1.jpg" alt="Imagem de capa do card">
+      </a>
+  <div class="card-body">
+
+    <div class="text-center">
+      <span class="category-badge">35.77</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="41" 
+         data-nome="Cristal Ágata Azul Céu para Equilíbrio e Energia" 
+         data-preco="35.77" 
+         data-imagem="Cristais/cristal1.jpg">Comprar</a>
+  </div>
+  </div>
+</div>
+</div>
+  </div>
+
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="cristal agata">
+     <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="Cristais/cristal2.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">48.99</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="42" 
+         data-nome="Cristal Ágata Preta para Proteção e Desintoxicação" 
+         data-preco="48.99" 
+         data-imagem="Cristais/cristal2.jpg">Comprar</a>
+        </div>
+  </div>
+</div>
+</div>
+  </div>
+
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="cristal agata">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="Cristais/cristal3.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">36.90</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="43" 
+         data-nome="Cristal Ágata Verde para Cura e Harmonia" 
+         data-preco="36.90" 
+         data-imagem="Cristais/cristal3.jpg">Comprar</a>
+        </div>
+    
+  </div>
+</div>
+</div>
+  </div>
+
+  
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa"data-category="cristal agata">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="Cristais/cristal4.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">46.00</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="44" 
+         data-nome="Cristal Ágata Vermelha para Proteção e Estímulo da Coragem" 
+         data-preco="46.00" 
+         data-imagem="Cristais/cristal4.jpg">Comprar</a></div>
+  </div>
+</div>
+</div>
+  </div>
+
+  
+   <!--<div class="col-sm-12 col-md-2 mb-3">
+    <div class="card card-hover-effect" style="background-color: #c0ff96;">
+      <div class="card" style="background-color: #c0ff96;">
+  <img class="card-img-top" src="Cristais/Livros_ Um ano de humor, romance e mistério.jpeg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+    <a href="#" class="btn btn-primary">Comprar</a></div>
+  </div>
+</div>
+</div>
+  </div>-->
+
+  
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="ametista">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="Cristais/cristal5.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">2,350.00</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="45" 
+         data-nome="Ametista para Transformação e Sabedoria" 
+         data-preco="2350.00" 
+         data-imagem="Cristais/cristal5.jpg">Comprar</a></div>
+  </div>
+</div>
+</div>
+<button class="seta seta-direita" onclick="rolarDireita()">&#10095;</button>
+  </div>
+
+   
+
+
+</div>
+
+
+
+
+<!--------------------------------------------------incensario------------------------------------------------------------------->
+<div class="row row-cols-1 row-cols-md-5 g-4 justify-content-center"> 
+ <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="incensario ametista">
+     <button class="seta seta-esquerda" onclick="rolarEsquerda()">&#10094;</button>
+         <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+    <div class="card" style="background-color: transparent; border: none;">
+      <a href="livros 4.html">
+  <img class="card-img-top" src="Incensario/incensario1.jpg" alt="Imagem de capa do card">
+      </a>
+  <div class="card-body">
+
+    <div class="text-center">
+      <span class="category-badge">49.90</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="61" 
+         data-nome="Incensário Drusa de Ametista" 
+         data-preco="49.90" 
+         data-imagem="Incensario/incensario1.jpg">Comprar</a>
+  </div>
+  </div>
+</div>
+</div>
+  </div>
+
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="incensario de agata roxa">
+     <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="Incensario/incensario2.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">44.90</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="62" 
+         data-nome="Incensário de Ágata Roxa" 
+         data-preco="44.90" 
+         data-imagem="Incensario/incensario2.jpg">Comprar</a>
+        </div>
+  </div>
+</div>
+</div>
+  </div>
+
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="incensario de quartzo verde">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="Incensario/incensario3.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">44.90</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="63" 
+         data-nome="Incensário de Quartzo Verde" 
+         data-preco="44.90" 
+         data-imagem="Incensario/incensario3.jpg">Comprar</a>
+        </div>
+    
+  </div>
+</div>
+</div>
+  </div>
+
+  
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa"data-category="incensario de agata">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="Incensario/incensario4.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">44.90</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="64" 
+         data-nome="Incensário de Ágata Rosa" 
+         data-preco="44.90" 
+         data-imagem="Incensario/incensario4.jpg">Comprar</a></div>
+  </div>
+</div>
+</div>
+  </div>
+
+  
+   <!--<div class="col-sm-12 col-md-2 mb-3">
+    <div class="card card-hover-effect" style="background-color: #c0ff96;">
+      <div class="card" style="background-color: #c0ff96;">
+  <img class="card-img-top" src="Incensario/Livros_ Um ano de humor, romance e mistério.jpeg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+    <a href="#" class="btn btn-primary">Comprar</a></div>
+  </div>
+</div>
+</div>
+  </div>-->
+
+  
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="incensario">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="Incensario/incensario5.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">17.90</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="65" 
+         data-nome=" Incensário Zen Frog" 
+         data-preco="17.90" 
+         data-imagem="Incensario/incensario5.jpg">Comprar</a></div>
+  </div>
+</div>
+</div>
+<button class="seta seta-direita" onclick="rolarDireita()">&#10095;</button>
+  </div>
+
+   
+
+
+</div>
+
+
+
+
+<!-----------------------------------------------------incenso------------------------------------------------------------------->
+<div class="row row-cols-1 row-cols-md-5 g-4 justify-content-center"> 
+ <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="incenso">
+     <button class="seta seta-esquerda" onclick="rolarEsquerda()">&#10094;</button>
+         <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+    <div class="card" style="background-color: transparent; border: none;">
+      <a href="livros 5.html">
+  <img class="card-img-top" src="Incenso/incenso1.jpg" alt="Imagem de capa do card">
+      </a>
+  <div class="card-body">
+
+    <div class="text-center">
+      <span class="category-badge">22.90</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="81" 
+         data-nome="Incenso para Proteção" 
+         data-preco="22.90" 
+         data-imagem="Incenso/incenso1.jpg">Comprar</a>
+  </div>
+  </div>
+</div>
+</div>
+  </div>
+
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="incenso">
+     <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="Incenso/incenso2.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">22.90</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="82" 
+         data-nome=" Incenso para Fortuna" 
+         data-preco="22.90" 
+         data-imagem="Incenso/incenso2.jpg">Comprar</a>
+        </div>
+  </div>
+</div>
+</div>
+  </div>
+
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="incenso">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="Incenso/incenso3.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">31.90</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="83" 
+         data-nome="Incenso Natural Palo Santo e Canela" 
+         data-preco="31.90" 
+         data-imagem="Incenso/incenso3.jpg">Comprar</a>
+        </div>
+    
+  </div>
+</div>
+</div>
+  </div>
+
+  
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa"data-category="incenso">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="Incenso/incenso4.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">31.90</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="84" 
+         data-nome="Incenso para Limpeza Espiritual" 
+         data-preco="31.90" 
+         data-imagem="Incenso/incenso4.jpg">Comprar</a></div>
+  </div>
+</div>
+</div>
+  </div>
+
+  
+   <!--<div class="col-sm-12 col-md-2 mb-3">
+    <div class="card card-hover-effect" style="background-color: #c0ff96;">
+      <div class="card" style="background-color: #c0ff96;">
+  <img class="card-img-top" src="Incenso/Livros_ Um ano de humor, romance e mistério.jpeg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+    <a href="#" class="btn btn-primary">Comprar</a></div>
+  </div>
+</div>
+</div>
+  </div>-->
+
+  
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="incenso">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="Incenso/incenso5.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">31.90</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="85" 
+         data-nome="Incenso de Alfazema e Mel" 
+         data-preco="31.90" 
+         data-imagem="Incenso/incenso5.jpg">Comprar</a></div>
+  </div>
+</div>
+</div>
+<button class="seta seta-direita" onclick="rolarDireita()">&#10095;</button>
+  </div>
+
+   
+
+
+</div>
+
+
+
+<!----------------------------------------------------livros------------------------------------------------------------------->
+<div class="row row-cols-1 row-cols-md-5 g-4 justify-content-center"> 
+ <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="biblia sagrada">
+     <button class="seta seta-esquerda" onclick="rolarEsquerda()">&#10094;</button>
+         <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+    <div class="card" style="background-color: transparent; border: none;">
+      <a href="livros 6.html">
+  <img class="card-img-top" src="Livros/livro1.jpg" alt="Imagem de capa do card">
+      </a>
+  <div class="card-body">
+
+    <div class="text-center">
+      <span class="category-badge">57.90</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="101" 
+         data-nome="Bíblia Sagrada Capa Luxo Marrom" 
+         data-preco="57.90" 
+         data-imagem="Livros/livro1.jpg">Comprar</a>
+  </div>
+  </div>
+</div>
+</div>
+  </div>
+
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="biblia sagrada">
+     <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="Livros/livro2.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">71.96</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="102" 
+         data-nome="Bíblia Sagrada Capa Couro Rosa" 
+         data-preco="71.96" 
+         data-imagem="Livros/livro2.jpg">Comprar</a>
+        </div>
+  </div>
+</div>
+</div>
+  </div>
+
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="biblia sagrada">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="Livros/livro3.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">72.99</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="103" 
+         data-nome="Bíblia Sagrada Pastoral Creme" 
+         data-preco="72.99" 
+         data-imagem="Livros/livro3.jpg">Comprar</a>
+        </div>
+    
+  </div>
+</div>
+</div>
+  </div>
+
+  
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa"data-category="biblia sagrada">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="Livros/livro4.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">30.00</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="104" 
+         data-nome="Bíblia Sagrada Pastoral Cristal" 
+         data-preco="30.00" 
+         data-imagem="Livros/livro4.jpg">Comprar</a></div>
+  </div>
+</div>
+</div>
+  </div>
+
+  
+   <!--<div class="col-sm-12 col-md-2 mb-3">
+    <div class="card card-hover-effect" style="background-color: #c0ff96;">
+      <div class="card" style="background-color: #c0ff96;">
+  <img class="card-img-top" src="Autoajuda/Livros_ Um ano de humor, romance e mistério.jpeg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+    <a href="#" class="btn btn-primary">Comprar</a></div>
+  </div>
+</div>
+</div>
+  </div>-->
+
+  
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="biblia sagrada">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="Livros/livro5.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">35.00</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="105" 
+         data-nome="Bíblia Sagrada Pastoral Capa Vinho" 
+         data-preco="35.00" 
+         data-imagem="Livros/livro5.jpg">Comprar</a></div>
+  </div>
+</div>
+</div>
+<button class="seta seta-direita" onclick="rolarDireita()">&#10095;</button>
+  </div>
+
+   
+
+
+</div>
+
+
+
+
+
+
+
+<!--------------------------------------------------ordem paranormal------------------------------------------------------------------->
+<div class="row row-cols-1 row-cols-md-5 g-4 justify-content-center"> 
+ <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="iniciacao">
+     <button class="seta seta-esquerda" onclick="rolarEsquerda()">&#10094;</button>
+         <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+    <div class="card" style="background-color: transparent; border: none;">
+      <a href="livros 7.html">
+  <img class="card-img-top" src="Op/op1.jpg" alt="Imagem de capa do card">
+      </a>
+  <div class="card-body">
+
+    <div class="text-center">
+      <span class="category-badge">129.90</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="121" 
+         data-nome="Ordem Paranormal Vol. 1 — Iniciação (Capa Dura)" 
+         data-preco="129.90" 
+         data-imagem="Op/op1.jpg">Comprar</a>
+  </div>
+  </div>
+</div>
+</div>
+  </div>
+
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="o segredo na floresta">
+     <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="Op/op2.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">139.90</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="122" 
+         data-nome="Ordem Paranormal Vol. 2 — O Segredo na Floresta Parte 1 (Capa Dura)" 
+         data-preco="139.90" 
+         data-imagem="Op/op2.jpg">Comprar</a>
+        </div>
+  </div>
+</div>
+</div>
+  </div>
+
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="o segredo na floresta">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="Op/op3.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">139.90</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="123" 
+         data-nome="Ordem Paranormal Vol. 3 — O Segredo na Floresta Parte 2 (Capa Dura)" 
+         data-preco="139.90" 
+         data-imagem="Op/op3.jpg">Comprar</a>
+        </div>
+    
+  </div>
+</div>
+</div>
+  </div>
+
+  
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa"data-category="desconjuracao">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="Op/op4.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">139.90</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="124" 
+         data-nome="Ordem Paranormal Vol. 4 — Desconjuração Parte 1 (Capa Dura)" 
+         data-preco="139.90" 
+         data-imagem="Op/op4.jpg">Comprar</a></div>
+  </div>
+</div>
+</div>
+  </div>
+
+  
+   <!--<div class="col-sm-12 col-md-2 mb-3">
+    <div class="card card-hover-effect" style="background-color: #c0ff96;">
+      <div class="card" style="background-color: #c0ff96;">
+  <img class="card-img-top" src="Op/Livros_ Um ano de humor, romance e mistério.jpeg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+    <a href="#" class="btn btn-primary">Comprar</a></div>
+  </div>
+</div>
+</div>
+  </div>-->
+
+  
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="desconjuracao">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="Op/op5.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">139.90</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="125" 
+         data-nome="Ordem Paranormal Vol. 5 — Desconjuração Parte 2 (Capa Dura)" 
+         data-preco="139.90" 
+         data-imagem="Op/op5.jpg">Comprar</a></div>
+  </div>
+</div>
+</div>
+<button class="seta seta-direita" onclick="rolarDireita()">&#10095;</button>
+  </div>
+
+   
+
+
+</div>
+
+
+
+
+
+<!--------------------------------------------------Velas--------------------------------------------------------------------->
+<div class="row row-cols-1 row-cols-md-5 g-4 justify-content-center"> 
+ <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="guia">
+     <button class="seta seta-esquerda" onclick="rolarEsquerda()">&#10094;</button>
+         <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+    <div class="card" style="background-color: transparent; border: none;">
+      <a href="livros 8.html">
+  <img class="card-img-top" src="Velas/vela1.jpg" alt="Imagem de capa do card">
+      </a>
+  <div class="card-body">
+
+    <div class="text-center">
+      <span class="category-badge">33.90</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="141" 
+         data-nome="Vela Laranja para Bons Negócios" 
+         data-preco="33.90" 
+         data-imagem="Velas/vela1.jpg">Comprar</a>
+  </div>
+  </div>
+</div>
+</div>
+  </div>
+
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="pendulo">
+     <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="Velas/vela2.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">33.90</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="142" 
+         data-nome="Vela Verde Clara para Prosperidade" 
+         data-preco="33.90" 
+         data-imagem="Velas/vela2.jpg">Comprar</a>
+        </div>
+  </div>
+</div>
+</div>
+  </div>
+
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="terço">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="Velas/vela3.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">31.90</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="143" 
+         data-nome="Vela Atrai Dinheiro" 
+         data-preco="31.90" 
+         data-imagem="Velas/vela3.jpg">Comprar</a>
+        </div>
+    
+  </div>
+</div>
+</div>
+  </div>
+
+  
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa"data-category="colar">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="Velas/vela4.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">33.90</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="144" 
+         data-nome="Vela Verde Escura Abre Caminho" 
+         data-preco="33.90" 
+         data-imagem="Velas/vela4.jpg">Comprar</a></div>
+  </div>
+</div>
+</div>
+  </div>
+
+  
+   <!--<div class="col-sm-12 col-md-2 mb-3">
+    <div class="card card-hover-effect" style="background-color: #c0ff96;">
+      <div class="card" style="background-color: #c0ff96;">
+  <img class="card-img-top" src="Velas/Livros_ Um ano de humor, romance e mistério.jpeg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+    <a href="#" class="btn btn-primary">Comprar</a></div>
+  </div>
+</div>
+</div>
+  </div>-->
+
+  
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="escapulario">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="Velas/vela5.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">33.90</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="145" 
+         data-nome="Vela Rosa do Amor" 
+         data-preco="33.90" 
+         data-imagem="Velas/vela5.jpg">Comprar</a></div>
+  </div>
+</div>
+</div>
+<button class="seta seta-direita" onclick="rolarDireita()">&#10095;</button>
+  </div>
+
+   
+
+
+</div>
+
+
+
+</div>
+
+</div>
+
+<div class="chat-flutuante" onclick="abrirChat()">
+    <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/>
+    </svg>
+    <span>Chat com Pavil</span>
+</div>
+
+<style>
+    /* Estilização do Botão Flutuante */
+    .chat-flutuante {
+        position: fixed;
+        bottom: 20px;       /* Distância do fundo da tela */
+        right: 20px;        /* Distância da borda direita da tela */
+        background-color: #0056b3; /* Cor preta idêntica ao print */
+        color: #ffffff;     /* Cor do texto */
+        display: flex;
+        align-items: center;
+        gap: 8px;           /* Espaço entre o ícone e o texto */
+        padding: 12px 20px; /* Espaçamento interno (engrossa o botão) */
+        border-radius: 24px;/* Deixa o botão totalmente arredondado */
+        font-family: 'Segoe UI', Roboto, sans-serif;
+        font-size: 14px;
+        font-weight: 600;   /* Texto em negrito leve */
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Sombra suave para flutuar */
+        z-index: 9999;      /* Garante que fique por cima de absolutamente tudo */
+        transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+
+    /* Efeito ao passar o mouse por cima (Hover) */
+    .chat-flutuante:hover {
+        transform: scale(1.03); /* Dá um leve zoom de feedback */
+        background-color: #0068d8; /* Fica levemente cinza ao passar o mouse */
+    }
+
+    /* Tamanho do ícone do chat */
+    .chat-flutuante svg {
+        width: 18px;
+        height: 18px;
+    }
+</style>
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+<!--
+<div id="container">
+<header>
+    <h1>Index</h1>
+<p>Home</p>
+</header>
+
+   <main>
+    <h3>Sistema Operacional</h3>
+    <p> Um sistema operacional (SO) é um software fundamental que atua como intermediário entre o hardware de um computador e o usuário, gerenciando recursos como memória, processamento e armazenamento. Ele facilita a interação do usuário com a máquina, permitindo que programas e aplicativos sejam executados.  </p>
+  <p>São exemplos de unidades de entrada de um computador: microfone, teclado, mouse, scanner, leitor de código de barras, máquina fotográfica digital, webcam, joystick</p>
+   <p>São exemplos de unidades de saída de um computador: monitor, caixas de som, impressora</p>
+   </main>
+
+   
+  <main>
+  <h3>Importância</h3>
+<p>
+Sem um sistema operacional, um computador seria incapaz de executar programas ou interagir com o usuário, pois ele é a ponte entre o hardware e o software. O SO é essencial para o funcionamento de praticamente qualquer dispositivo eletrônico inteligente, desde smartphones a computadores. </p>
+ 
+</main>
+
+ </div>-->
+
+
+<!-- Footer -->
+ <footer>
+	<section id="footer">
+		<div class="container">
+			<div class="row text-center text-xs-center text-sm-left text-md-left">
+				<div class="col-xs-12 col-sm-12 col-md-12">
+          <div class="text-center"></div>
+					<h5>Links Rápidos</h5>
+					<ul class="list-unstyled quick-links">
+						<li><a href="#CLICK"><i class="fa fa-angle-double-right"></i>Home</a></li>
+						<!--<li><a href="sobre.html"><i class="fa fa-angle-double-right"></i>Sobre</a></li>-->
+						<li><a href="contato.html"><i class="fa fa-angle-double-right"></i>Contato</a></li>
+						<li><a href="loc.html"><i class="fa fa-angle-double-right"></i>Endereço</a></li>
+						<li><a href="video.html"><i class="fa fa-angle-double-right"></i>Videos</a></li>
+					</ul>
+				</div>
+        </div>
+        <!--
+				<div class="col-xs-12 col-sm-4 col-md-4">
+					<h5>Links Rápidos</h5>
+					<ul class="list-unstyled quick-links">
+						<li><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-angle-double-right"></i>Home</a></li>
+						<li><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-angle-double-right"></i>About</a></li>
+						<li><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-angle-double-right"></i>FAQ</a></li>
+						<li><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-angle-double-right"></i>Get Started</a></li>
+						<li><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-angle-double-right"></i>Videos</a></li>
+					</ul>
+				</div>
+				<div class="col-xs-12 col-sm-4 col-md-4">
+					<h5>Quick links</h5>
+					<ul class="list-unstyled quick-links">
+						<li><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-angle-double-right"></i>Home</a></li>
+						<li><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-angle-double-right"></i>About</a></li>
+						<li><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-angle-double-right"></i>FAQ</a></li>
+						<li><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-angle-double-right"></i>Get Started</a></li>
+						<li><a href="https://wwwe.sunlimetech.com" title="Design and developed by"><i class="fa fa-angle-double-right"></i>Imprint</a></li>
+					</ul>
+				</div>
+			</div>
+      -->
+      
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-5">
+					<ul class="list-unstyled list-inline social text-center">
+						<li class="list-inline-item"><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-facebook"></i></a></li>
+						<li class="list-inline-item"><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-twitter"></i></a></li>
+						<li class="list-inline-item"><a href=""><i class="fa fa-instagram"></i></a></li>
+						<li class="list-inline-item"><a href="interface.html"><i class="fa fa-google-plus"></i></a></li>
+						<li class="list-inline-item"><a href="https://www.fiverr.com/share/qb8D02" target="_blank"><i class="fa fa-envelope"></i></a></li>
+					</ul>
+				</div>
+				<hr>
+			</div>
+      	
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-2 text-center text-white">
+					<p><u><a href="interface.html">Pavio</a></u> é uma empresa nacional SP/BR</p>
+					<p class="h6">© Todos os direitos reservados.<a class="text-green ml-2" href="https://www.sunlimetech.com" target="_blank"> </a></p>
+          <p class="h6">Proibido Revenda</p>
+				</div>
+				<hr>
+			</div>	
+		</div>
+	</section>
+  </footer>
+	<!-- ./Footer -->
+
+   </body>
+
+</html>

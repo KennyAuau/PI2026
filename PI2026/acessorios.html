@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pavil</title>
+    <link rel="icon" type="image/x-icon" href="imagens/pavil logo.png">
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+      <link rel="stylesheet" href="css/estilo.css">
+      <link rel="stylesheet" href="css/estilonavbar.css">
+      <link rel="stylesheet" href="css/estilofooter.css">
+      <script src="interface.js" defer></script>
+
+
+      <style>
+         .search-container {
+            margin-bottom: 40px;
+            width: 100%;
+            max-width: 90%;
+            margin-left: auto;   /* Empurra para o centro na esquerda */
+            margin-right: auto;  /* Empurra para o centro na direita */
+            margin-top: 40px;    /* Afastamento do topo */
+            text-align: center;  /* Garante que o input interno fique alinhado */
+        }
+
+        /* Estilo da Barra de Pesquisa */
+        .search-input {
+            width: 100%;
+            padding: 14px 20px;
+            font-size: 1rem;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(223, 183, 108, 0.3);
+            border-radius: 50px; /* Deixa a barra arredondada */
+            color: var(--text-light);
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 15px rgba(223, 183, 108, 0.2);
+        }
+
+        /* Grid de Produtos */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        /* Card do Produto */
+        .product-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            backdrop-filter: blur(8px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .product-card h3 {
+            margin: 10px 0 5px 0;
+            font-size: 1.2rem;
+        }
+
+        /* Tag de Categoria */
+        .category-badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--gold);
+            background: rgba(223, 183, 108, 0.1);
+            padding: 4px 10px;
+            border-radius: 12px;
+            margin-top: 10px;
+        }
+
+        /* Classe utilitária para esconder produtos que não batem com a busca */
+        .hidden-card {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+}
+      </style>
+
+
+</head>
+<body>
+
+   <nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+     <a class="navbar-brand" href="interface.html">
+     <img src="imagens/pavil logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+    Pavil
+    </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Alterna navegação">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="interface.html">Home <span class="sr-only">(Página atual)</span></a>
+      </li>
+      <li class="nav-item">
+		<a class="nav-link" href="contato.html">Contato</a>
+	   </li>
+       <li class="nav-item">
+        <a class="nav-link" href="loc.html">Venha nos Comprar!</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Categorias
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="acessorios.html">Acessório</a>
+          <a class="dropdown-item" href="Tarot.html">Baralho de Tarot</a>
+          <a class="dropdown-item" href="Cristais.html">Cristais</a>
+          <a class="dropdown-item" href="incensario.html">Incensário</a>
+          <a class="dropdown-item" href="incenso.html">Incenso</a>
+          <a class="dropdown-item" href="Livros.html">Livros</a>
+          <a class="dropdown-item" href="OP.html">Ordem Paranormal</a>
+          <a class="dropdown-item" href="Velas.html">Velas</a>
+        </div>
+      </li>
+         
+    </ul>
+  </div>
+    <nav class="navbar-right"> 
+      <ul class="navbar-right">
+          <li class="nav-item">
+        <div class="menu" aria-labelledby="navbarMenuLink">
+          <a class="nav-item" href="carrinho.html"><i class="bi bi-bag-dash"></i></a>
+        </div>
+      </li>
+  </ul>
+  </nav>
+  <nav class="navbar-right"> 
+      <ul class="navbar-right">
+          <li class="nav-item">
+        <div class="menu" aria-labelledby="navbarMenuLink">
+          <a class="nav-item" href="perfi.html"><i class="bi bi-person-circle"></i></a>
+        </div>
+      </li>
+  </ul>
+  </nav>
+</nav>
+
+    </div>
+   </div>
+  
+   </div>
+
+
+
+<div class="search-container">
+        <input 
+            type="text" 
+            id="barrapesquisa" 
+            class="search-input" 
+            placeholder="Busque por categoria (ex: livros, velas)..."
+        >
+    </div>
+
+    <!--<div class="products-grid">
+        
+        <div class="product-card" data-category="livros">
+            <h3>Livro de rituais</h3>
+            <span class="category-badge">Livros</span>
+        </div>
+
+        <div class="product-card" data-category="velas">
+            <h3>Vela Aromática de Lavanda</h3>
+            <span class="category-badge">Velas</span>
+        </div>
+
+        <div class="product-card" data-category="livros">
+            <h3>Oráculo Diário</h3>
+            <span class="category-badge">Livros</span>
+        </div>
+
+        <div class="product-card" data-category="velas">
+            <h3>Vela Preta de Proteção</h3>
+            <span class="category-badge">Velas</span>
+        </div>
+
+        <div class="product-card" data-category="cristais">
+            <h3>Pedra Quartzo Rosa</h3>
+            <span class="category-badge">Cristais</span>
+        </div>
+
+    </div>-->
+
+
+
+
+<div class="container mt-3">
+<div class="row row-cols-1 row-cols-md-5 g-4 justify-content-center"> 
+ <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="guia">
+     <button class="seta seta-esquerda" onclick="rolarEsquerda()">&#10094;</button>
+         <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+    <div class="card" style="background-color: transparent; border: none;">
+      <a href="livros 1.html">
+  <img class="card-img-top" src="acessorios/acessorio1.png" alt="Imagem de capa do card">
+      </a>
+  <div class="card-body">
+
+    <div class="text-center">
+      <span class="category-badge">21.90</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="1" 
+         data-nome="Guia" 
+         data-preco="21.90" 
+         data-imagem="acessorios/acessorio1.png">Comprar</a>
+  </div>
+  </div>
+</div>
+</div>
+  </div>
+
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="pendulo">
+     <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="acessorios/acessorio2.png" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">26.00</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="2" 
+         data-nome="Pêndulo de Radiestesia" 
+         data-preco="26.00" 
+         data-imagem="Autoajuda/download (2).jpeg">Comprar</a>
+        </div>
+  </div>
+</div>
+</div>
+  </div>
+
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="terço">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="acessorios/acessorio3.png" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">20.00</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="3" 
+         data-nome="Terço" 
+         data-preco="20.00" 
+         data-imagem="Autoajuda/download (2).jpeg">Comprar</a>
+        </div>
+    
+  </div>
+</div>
+</div>
+  </div>
+
+  
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa"data-category="colar">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="acessorios/acessorio4.png" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">33.00</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="4" 
+         data-nome="Colar Pentagrama" 
+         data-preco="33.00" 
+         data-imagem="Autoajuda/download (2).jpeg">Comprar</a></div>
+  </div>
+</div>
+</div>
+  </div>
+
+  
+   <!--<div class="col-sm-12 col-md-2 mb-3">
+    <div class="card card-hover-effect" style="background-color: #c0ff96;">
+      <div class="card" style="background-color: #c0ff96;">
+  <img class="card-img-top" src="Autoajuda/Livros_ Um ano de humor, romance e mistério.jpeg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+    <a href="#" class="btn btn-primary">Comprar</a></div>
+  </div>
+</div>
+</div>
+  </div>-->
+
+  
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="escapulario">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="acessorios/acessorio5.png" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">50.00</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="5" 
+         data-nome="Escapulário" 
+         data-preco="50.00" 
+         data-imagem="Autoajuda/download (2).jpeg">Comprar</a></div>
+  </div>
+</div>
+</div>
+<button class="seta seta-direita" onclick="rolarDireita()">&#10095;</button>
+  </div>
+
+   
+
+
+</div>
+
+   
+
+<div class="row row-cols-1 row-cols-md-5 g-4 justify-content-center"> 
+ <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="terço">
+     <button class="seta seta-esquerda" onclick="rolarEsquerda()">&#10094;</button>
+         <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+    <div class="card" style="background-color: transparent; border: none;">
+      <a href="livros 1.html">
+  <img class="card-img-top" src="acessorios/acessorio6.jpg" alt="Imagem de capa do card">
+      </a>
+  <div class="card-body">
+
+    <div class="text-center">
+      <span class="category-badge">19.00</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="6" 
+         data-nome="Terço nossa senhora" 
+         data-preco="19.00" 
+         data-imagem="acessorios/acessorio1.png">Comprar</a>
+  </div>
+  </div>
+</div>
+</div>
+  </div>
+
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="prendedor de cabelo">
+     <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="acessorios/acessorio7.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">33.00</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="7" 
+         data-nome="Prendedor de cabelo" 
+         data-preco="33.00" 
+         data-imagem="Autoajuda/download (2).jpeg">Comprar</a>
+        </div>
+  </div>
+</div>
+</div>
+  </div>
+
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="toalha pra leitura de tarot">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="acessorios/acessorio8.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">38.90</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="8" 
+         data-nome="Toalha pra leitura de tarot" 
+         data-preco="38.90" 
+         data-imagem="Autoajuda/download (2).jpeg">Comprar</a>
+        </div>
+    
+  </div>
+</div>
+</div>
+  </div>
+
+  
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa"data-category="terço">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="acessorios/acessorio9.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">69.00</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="9" 
+         data-nome="Terço roxo" 
+         data-preco="69.00" 
+         data-imagem="Autoajuda/download (2).jpeg">Comprar</a></div>
+  </div>
+</div>
+</div>
+  </div>
+
+  
+   <!--<div class="col-sm-12 col-md-2 mb-3">
+    <div class="card card-hover-effect" style="background-color: #c0ff96;">
+      <div class="card" style="background-color: #c0ff96;">
+  <img class="card-img-top" src="Autoajuda/Livros_ Um ano de humor, romance e mistério.jpeg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+    <a href="#" class="btn btn-primary">Comprar</a></div>
+  </div>
+</div>
+</div>
+  </div>-->
+
+  
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="escapulario">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="acessorios/acessorio10.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">189.90</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="10" 
+         data-nome="Escapulário arcanjo miguel" 
+         data-preco="189.90" 
+         data-imagem="Autoajuda/download (2).jpeg">Comprar</a></div>
+  </div>
+</div>
+</div>
+<button class="seta seta-direita" onclick="rolarDireita()">&#10095;</button>
+  </div>
+
+</div>
+
+
+
+
+
+
+  <div class="row row-cols-1 row-cols-md-5 g-4 justify-content-center"> 
+ <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="circlet">
+     <button class="seta seta-esquerda" onclick="rolarEsquerda()">&#10094;</button>
+         <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+    <div class="card" style="background-color: transparent; border: none;">
+      <a href="livros 1.html">
+  <img class="card-img-top" src="acessorios/acessorio11.jpg" alt="Imagem de capa do card">
+      </a>
+  <div class="card-body">
+
+    <div class="text-center">
+      <span class="category-badge">250.00</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="11" 
+         data-nome="Circlet de alpaca" 
+         data-preco="250.00" 
+         data-imagem="acessorios/acessorio1.png">Comprar</a>
+  </div>
+  </div>
+</div>
+</div>
+  </div>
+
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="chapeu de bruxa">
+     <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="acessorios/acessorio12.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">280.00</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="12" 
+         data-nome="Chapeu de bruxa" 
+         data-preco="280.00" 
+         data-imagem="Autoajuda/download (2).jpeg">Comprar</a>
+        </div>
+  </div>
+</div>
+</div>
+  </div>
+
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="chapeu de bruxa">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="acessorios/acessorio13.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">330.00</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="13" 
+         data-nome="Chapeu de bruxa | Roda de Hécate" 
+         data-preco="330.00" 
+         data-imagem="Autoajuda/download (2).jpeg">Comprar</a>
+        </div>
+    
+  </div>
+</div>
+</div>
+  </div>
+
+  
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa"data-category="toalha tarot">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="acessorios/acessorio14.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">279.99</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="14" 
+         data-nome="4 Toalhas de tarot de veludo + 4 sacos" 
+         data-preco="279.99" 
+         data-imagem="Autoajuda/download (2).jpeg">Comprar</a></div>
+  </div>
+</div>
+</div>
+  </div>
+
+  
+   <!--<div class="col-sm-12 col-md-2 mb-3">
+    <div class="card card-hover-effect" style="background-color: #c0ff96;">
+      <div class="card" style="background-color: #c0ff96;">
+  <img class="card-img-top" src="Autoajuda/Livros_ Um ano de humor, romance e mistério.jpeg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+    <a href="#" class="btn btn-primary">Comprar</a></div>
+  </div>
+</div>
+</div>
+  </div>-->
+
+  
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="medalha">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="acessorios/acessorio15.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">339.00</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="15" 
+         data-nome="Medalha de Ágata com Ícone Mãe de deus" 
+         data-preco="339.00" 
+         data-imagem="Autoajuda/download (2).jpeg">Comprar</a></div>
+  </div>
+</div>
+</div>
+<button class="seta seta-direita" onclick="rolarDireita()">&#10095;</button>
+  </div>
+
+  </div>
+
+
+
+
+
+  <div class="row row-cols-1 row-cols-md-5 g-4 justify-content-center"> 
+ <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="brajá de exu">
+     <button class="seta seta-esquerda" onclick="rolarEsquerda()">&#10094;</button>
+         <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+    <div class="card" style="background-color: transparent; border: none;">
+      <a href="livros 1.html">
+  <img class="card-img-top" src="acessorios/acessorio16.jpg" alt="Imagem de capa do card">
+      </a>
+  <div class="card-body">
+
+    <div class="text-center">
+      <span class="category-badge">229.50</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="16" 
+         data-nome="Brajá de exú" 
+         data-preco="229.50" 
+         data-imagem="acessorios/acessorio1.png">Comprar</a>
+  </div>
+  </div>
+</div>
+</div>
+  </div>
+
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="brajá de Pombagira">
+     <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="acessorios/acessorio17.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">239.56</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="17" 
+         data-nome="Brajá de Pombagira" 
+         data-preco="239.56" 
+         data-imagem="Autoajuda/download (2).jpeg">Comprar</a>
+        </div>
+  </div>
+</div>
+</div>
+  </div>
+
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="brajá de exu">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="acessorios/acessorio18.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">246.42</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="18" 
+         data-nome="Brajá de exú" 
+         data-preco="246.42" 
+         data-imagem="Autoajuda/download (2).jpeg">Comprar</a>
+        </div>
+    
+  </div>
+</div>
+</div>
+  </div>
+
+  
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa"data-category="Bastão energetico">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="acessorios/acessorio19.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">598.00</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="19" 
+         data-nome="Bastão Energético" 
+         data-preco="598.00" 
+         data-imagem="Autoajuda/download (2).jpeg">Comprar</a></div>
+  </div>
+</div>
+</div>
+  </div>
+
+  
+   <!--<div class="col-sm-12 col-md-2 mb-3">
+    <div class="card card-hover-effect" style="background-color: #c0ff96;">
+      <div class="card" style="background-color: #c0ff96;">
+  <img class="card-img-top" src="Autoajuda/Livros_ Um ano de humor, romance e mistério.jpeg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+    <a href="#" class="btn btn-primary">Comprar</a></div>
+  </div>
+</div>
+</div>
+  </div>-->
+
+  
+   <div class="col-sm-12 col-md-2 mb-3 card-produto-pesquisa" data-category="colar">
+    <div class="card card-hover-effect" style="background-color: transparent; border: none;">
+      <div class="card" style="background-color: transparent; border: none;">
+  <img class="card-img-top" src="acessorios/acessorio20.jpg" alt="Imagem de capa do card">
+  <div class="card-body">
+    
+    <div class="text-center">
+      <span class="category-badge">519.90</span>
+    <a href="carrinho.html" class="btn btn-primary mt-3 btn-adicionar"
+         data-id="20" 
+         data-nome="Colar Maria Mulambo" 
+         data-preco="519.90" 
+         data-imagem="Autoajuda/download (2).jpeg">Comprar</a></div>
+  </div>
+</div>
+</div>
+<button class="seta seta-direita" onclick="rolarDireita()">&#10095;</button>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="chat-flutuante" onclick="abrirChat()">
+    <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/>
+    </svg>
+    <span>Chat with Sales</span>
+</div>
+
+<style>
+    /* Estilização do Botão Flutuante */
+    .chat-flutuante {
+        position: fixed;
+        bottom: 20px;       /* Distância do fundo da tela */
+        right: 20px;        /* Distância da borda direita da tela */
+        background-color: #0056b3; /* Cor preta idêntica ao print */
+        color: #ffffff;     /* Cor do texto */
+        display: flex;
+        align-items: center;
+        gap: 8px;           /* Espaço entre o ícone e o texto */
+        padding: 12px 20px; /* Espaçamento interno (engrossa o botão) */
+        border-radius: 24px;/* Deixa o botão totalmente arredondado */
+        font-family: 'Segoe UI', Roboto, sans-serif;
+        font-size: 14px;
+        font-weight: 600;   /* Texto em negrito leve */
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Sombra suave para flutuar */
+        z-index: 9999;      /* Garante que fique por cima de absolutamente tudo */
+        transition: transform 0.2s ease, background-color 0.2s ease;
+    }
+
+    /* Efeito ao passar o mouse por cima (Hover) */
+    .chat-flutuante:hover {
+        transform: scale(1.03); /* Dá um leve zoom de feedback */
+        background-color: #0068d8; /* Fica levemente cinza ao passar o mouse */
+    }
+
+    /* Tamanho do ícone do chat */
+    .chat-flutuante svg {
+        width: 18px;
+        height: 18px;
+    }
+</style>
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+<!--
+<div id="container">
+<header>
+    <h1>Index</h1>
+<p>Home</p>
+</header>
+
+   <main>
+    <h3>Sistema Operacional</h3>
+    <p> Um sistema operacional (SO) é um software fundamental que atua como intermediário entre o hardware de um computador e o usuário, gerenciando recursos como memória, processamento e armazenamento. Ele facilita a interação do usuário com a máquina, permitindo que programas e aplicativos sejam executados.  </p>
+  <p>São exemplos de unidades de entrada de um computador: microfone, teclado, mouse, scanner, leitor de código de barras, máquina fotográfica digital, webcam, joystick</p>
+   <p>São exemplos de unidades de saída de um computador: monitor, caixas de som, impressora</p>
+   </main>
+
+   
+  <main>
+  <h3>Importância</h3>
+<p>
+Sem um sistema operacional, um computador seria incapaz de executar programas ou interagir com o usuário, pois ele é a ponte entre o hardware e o software. O SO é essencial para o funcionamento de praticamente qualquer dispositivo eletrônico inteligente, desde smartphones a computadores. </p>
+ 
+</main>
+
+ </div>-->
+
+
+<!-- Footer -->
+ <footer>
+	<section id="footer">
+		<div class="container">
+			<div class="row text-center text-xs-center text-sm-left text-md-left">
+				<div class="col-xs-12 col-sm-12 col-md-12">
+          <div class="text-center"></div>
+					<h5>Links Rápidos</h5>
+					<ul class="list-unstyled quick-links">
+						<li><a href="#CLICK"><i class="fa fa-angle-double-right"></i>Home</a></li>
+						<li><a href="sobre.html"><i class="fa fa-angle-double-right"></i>Sobre</a></li>
+						<li><a href="contato.html"><i class="fa fa-angle-double-right"></i>Contato</a></li>
+						<li><a href="loc.html"><i class="fa fa-angle-double-right"></i>Endereço</a></li>
+						<li><a href="video.html"><i class="fa fa-angle-double-right"></i>Videos</a></li>
+					</ul>
+				</div>
+        </div>
+        <!--
+				<div class="col-xs-12 col-sm-4 col-md-4">
+					<h5>Links Rápidos</h5>
+					<ul class="list-unstyled quick-links">
+						<li><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-angle-double-right"></i>Home</a></li>
+						<li><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-angle-double-right"></i>About</a></li>
+						<li><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-angle-double-right"></i>FAQ</a></li>
+						<li><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-angle-double-right"></i>Get Started</a></li>
+						<li><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-angle-double-right"></i>Videos</a></li>
+					</ul>
+				</div>
+				<div class="col-xs-12 col-sm-4 col-md-4">
+					<h5>Quick links</h5>
+					<ul class="list-unstyled quick-links">
+						<li><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-angle-double-right"></i>Home</a></li>
+						<li><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-angle-double-right"></i>About</a></li>
+						<li><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-angle-double-right"></i>FAQ</a></li>
+						<li><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-angle-double-right"></i>Get Started</a></li>
+						<li><a href="https://wwwe.sunlimetech.com" title="Design and developed by"><i class="fa fa-angle-double-right"></i>Imprint</a></li>
+					</ul>
+				</div>
+			</div>
+      -->
+      
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-5">
+					<ul class="list-unstyled list-inline social text-center">
+						<li class="list-inline-item"><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-facebook"></i></a></li>
+						<li class="list-inline-item"><a href="https://www.fiverr.com/share/qb8D02"><i class="fa fa-twitter"></i></a></li>
+						<li class="list-inline-item"><a href="https://www.instagram.com/match._literario?utm_source=ig_web_button_share_sheet&igsh=MW5vNzhwOWFyZHpjMg=="><i class="fa fa-instagram"></i></a></li>
+						<li class="list-inline-item"><a href="index.html"><i class="fa fa-google-plus"></i></a></li>
+						<li class="list-inline-item"><a href="https://www.fiverr.com/share/qb8D02" target="_blank"><i class="fa fa-envelope"></i></a></li>
+					</ul>
+				</div>
+				<hr>
+			</div>
+      	
+			<div class="row">
+				<div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-2 text-center text-white">
+					<p><u><a href="https://www.nationaltransaction.com/">National Transaction Corporation</a></u> is a Registered MSP/ISO of Elavon, Inc. Georgia [a wholly owned subsidiary of U.S. Bancorp, Minneapolis, MN]</p>
+					<p class="h6">© All right Reversed.<a class="text-green ml-2" href="https://www.sunlimetech.com" target="_blank">Sunlimetech</a></p>
+				</div>
+				<hr>
+			</div>	
+		</div>
+	</section>
+  </footer>
+	<!-- ./Footer -->
+
+   </body>
+
+</html>
